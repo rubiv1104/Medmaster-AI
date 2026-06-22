@@ -20,7 +20,7 @@ export interface BranchTemplate {
   sections: SectionTemplate[]
 }
 
-export const BRANCH_TEMPLATES: BranchTemplate[] = [
+const LEGACY_BRANCH_TEMPLATES: BranchTemplate[] = [
   // ──────────────────────────────────────────────────────────
   // MD KAYACHIKITSA (Internal Medicine)
   // ──────────────────────────────────────────────────────────
@@ -457,6 +457,164 @@ export const BRANCH_TEMPLATES: BranchTemplate[] = [
       },
     ],
   },
+]
+
+const COMMON_FIRST_SEMESTER_TOPICS: TopicTemplate[] = [
+  { name: 'Research Methodology - NCISM PG First Semester', sort_order: 1 },
+  { name: 'Biostatistics - NCISM PG First Semester', sort_order: 2 },
+]
+
+const NCISM_SUBJECTS = [
+  {
+    branch: 'MD Ayurveda Samhita and Siddhanta',
+    code: 'SS',
+    second: 'NCISM-AYPG-AB-SS',
+    third: 'NCISM_Sem3-6_AYPG-Ayurveda Samhita and Siddhanta',
+  },
+  {
+    branch: 'MD Dravyaguna Vijnana',
+    code: 'DG',
+    second: 'NCISM-AYPG-AB-DG',
+    third: 'NCISM_Sem3-6_AYPG-Dravyaguna Vijnana',
+  },
+  {
+    branch: 'MD Shalya Tantra',
+    code: 'ST',
+    second: 'NCISM-AYPG-AB-ST',
+    third: 'NCISM_Sem3-6_AYPG-Shalya Tantra',
+  },
+  {
+    branch: 'MD Swasthavritta and Yoga',
+    code: 'SW',
+    second: 'NCISM-AYPG-AB-SW',
+    third: 'NCISM_Sem3-6_AYPG-SW',
+  },
+  {
+    branch: 'MD Panchakarma',
+    code: 'PK',
+    second: 'NCISM-AYPG-AB-PK',
+    third: 'NCISM_Sem3-6_AYPG-PK',
+  },
+  {
+    branch: 'MD Rasayana and Vajikarana',
+    code: 'RV',
+    second: 'NCISM-AYPG-AB-RV',
+    third: null,
+  },
+  {
+    branch: 'MD Roga Nidana evam Vikriti Vigyana',
+    code: 'RN',
+    second: 'NCISM-AYPG-AB-RN',
+    third: 'NCISM_Sem3-6_AYPG-RN',
+  },
+  {
+    branch: 'MD Rachana Sharira',
+    code: 'RS',
+    second: 'NCISM-AYPG-AB-RS',
+    third: 'NCISM_Sem3-6_AYPG-RS',
+  },
+  {
+    branch: 'MD Kaumarabhritya - Bala Roga',
+    code: 'KB',
+    second: 'NCISM-AYPG-AB-KB',
+    third: 'NCISM_Sem3-6_AYPG-KB',
+  },
+  {
+    branch: 'MD Rasa Shastra and Bhaishajya Kalpana',
+    code: 'RB',
+    second: 'NCISM-AYPG-AB-RB',
+    third: 'NCISM_Sem3-6_AYPG-RB',
+  },
+  {
+    branch: 'MD Manovigyan evam Manasa Roga',
+    code: 'MN',
+    second: 'NCISM-AYPG-AB-MN',
+    third: 'NCISM_Sem3-6_AYPG-MN',
+  },
+  {
+    branch: 'MD Agada Tantra',
+    code: 'AT',
+    second: 'NCISM-AYPG-AB-AT',
+    third: 'NCISM_Sem-3-6_AYPG-AT',
+  },
+  {
+    branch: 'MD Kriya Sharira',
+    code: 'KS',
+    second: 'NCISM-AYPG-AB-KS',
+    third: 'NCISM_Sem3-6_AYPG-KS',
+  },
+  {
+    branch: 'MD Kayachikitsa',
+    code: 'KC',
+    second: 'NCISM-AYPG-AB-KC',
+    third: 'NCISM_Sem3-6_AYPG-KC',
+  },
+  {
+    branch: 'MS Prasuti Tantra and Stri Roga',
+    code: 'SRPT',
+    second: 'NCISM-AYPG-AB-SRPT',
+    third: 'NCISM_Sem3-6_AYPG-SRPT',
+  },
+  {
+    branch: 'MS Shalakya Tantra - Netra Roga',
+    code: 'N',
+    second: 'NCISM-AYPG-AB-N',
+    third: null,
+  },
+  {
+    branch: 'MS Shalakya Tantra - Karna Nasa Mukha and Shiro Roga',
+    code: 'KNM',
+    second: 'NCISM-AYPG-AB-KNM',
+    third: null,
+  },
+] as const
+
+const NCISM_PG_AYURVEDA_TEMPLATES: BranchTemplate[] = NCISM_SUBJECTS.map(
+  (subject) => ({
+    branch: subject.branch,
+    syllabus_name: `${subject.branch} NCISM PG Syllabus`,
+    sections: [
+      {
+        name: 'First Semester - Common PG Curriculum',
+        sort_order: 1,
+        topics: COMMON_FIRST_SEMESTER_TOPICS,
+      },
+      {
+        name: `Second Semester - ${subject.code}`,
+        sort_order: 2,
+        topics: [
+          {
+            name: `${subject.second} - Subject Syllabus`,
+            sort_order: 1,
+          },
+        ],
+      },
+      ...(subject.third
+        ? [
+            {
+              name: `Third to Sixth Semester - ${subject.code}`,
+              sort_order: 3,
+              topics: [
+                {
+                  name: `${subject.third} - Subject Syllabus`,
+                  sort_order: 1,
+                },
+              ],
+            },
+          ]
+        : []),
+    ],
+  })
+)
+
+export const BRANCH_TEMPLATES: BranchTemplate[] = [
+  ...NCISM_PG_AYURVEDA_TEMPLATES,
+  ...LEGACY_BRANCH_TEMPLATES.filter(
+    (legacy) =>
+      !NCISM_PG_AYURVEDA_TEMPLATES.some(
+        (official) => official.branch === legacy.branch
+      )
+  ),
 ]
 
 export const BRANCHES = BRANCH_TEMPLATES.map(t => t.branch)

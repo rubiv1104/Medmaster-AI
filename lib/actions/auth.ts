@@ -48,7 +48,8 @@ export async function signIn(formData: FormData) {
 
   return {
     success: true,
-    redirectTo,};
+    redirectTo,
+  };
 }
 
 export async function signUp(formData: FormData) {

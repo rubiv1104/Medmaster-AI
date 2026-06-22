@@ -2,16 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { useSearchParams } from "next/navigation";
+import { signIn } from "@/lib/actions/auth";
 
 export default function LoginPage() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const supabase = createClient();
 
   const redirectTo = searchParams.get("redirect") ?? "/home";
   const [error, setError] = useState<string | null>(null);
@@ -38,27 +33,19 @@ export default function LoginPage() {
   );
 
   try {
-    const { error } =
-      await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+    const result = await signIn(formData);
 
-    if (error) {
+    if (result?.error) {
       setError(
-        error.message ===
+        result.error ===
           "Invalid login credentials"
           ? "Incorrect email or password. Please try again."
-          : error.message
+          : result.error
       );
       return;
     }
 
-    // wait for cookie/session sync
-    await supabase.auth.getSession();
-
-    // full reload after cookie exists
-    window.location.assign(redirectTo);
+    window.location.replace(result?.redirectTo ?? redirectTo);
   } catch {
     setError(
       "Something went wrong. Please try again."

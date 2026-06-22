@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 import {
   getRevisionsDueToday,
   getUserStats,
@@ -51,8 +52,13 @@ function getMotivationalSubtitle(
 export default async function HomePage() {
   const supabase = await createClient();
 
-  const userId =
-    "c6409e09-d573-4782-9121-de1e124c01bd";
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) redirect("/login?redirect=/home");
+
+  const userId = user.id;
 
   const [
     revisionsDue,

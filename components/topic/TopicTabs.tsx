@@ -1,13 +1,12 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import type { Resource, UserTopicProgress } from '@/types/database'
-import NotesTab from './tabs/NotesTab'
-import RevisionNotesTab from './tabs/RevisionNotesTab'
-import MCQsTab from './tabs/MCQsTab'
-import DiscussionTab from './tabs/DiscussionTab'
-import ProgressTab from './tabs/ProgressTab'
+import NotesTab from '@/app/(app)/topic/[id]/tabs/NotesTab'
+import RevisionNotesTab from '@/app/(app)/topic/[id]/tabs/RevisionNotesTab'
+import MCQsTab from '@/app/(app)/topic/[id]/tabs/MCQsTab'
+import DiscussionTab from '@/app/(app)/topic/[id]/tabs/DiscussionTab'
+import ProgressTab from '@/app/(app)/topic/[id]/tabs/ProgressTab'
 
 interface TopicTabsProps {
   topicId: string

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut } from '@/lib/actions/auth'
 import {
-  Home, BookOpen, BarChart2, Users, User, LogOut, Leaf
+  Home, BookOpen, BarChart2, Users, User, LogOut, Leaf, UploadCloud
 } from 'lucide-react'
 
 interface SidebarProps {
@@ -17,6 +17,7 @@ interface SidebarProps {
 const NAV_ITEMS = [
   { href: '/home',      icon: Home,      label: 'Home' },
   { href: '/syllabus',  icon: BookOpen,  label: 'Syllabus' },
+  { href: '/upload',    icon: UploadCloud, label: 'Upload' },
   { href: '/progress',  icon: BarChart2, label: 'Progress' },
   { href: '/community', icon: Users,     label: 'Community' },
   { href: '/profile',   icon: User,      label: 'Profile' },
